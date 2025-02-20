@@ -1,1 +1,15 @@
+**Q1: Convolution neural network**
 
+Initial layer takes two filters “kernels” that iterate through our initial input of a 28x28 grayscale image. The kernels are a 5x5 matrix with a weight on every unit and an overall bias, the kernels iterate by moving through the 28x28 in “strides,” moving one stride every time an activation value is created from the previous set of inputs in the kernel. It multiplies every gray scale value with the weights in the kernel and adds the overall bias, creating a separate matrix which it sums everything into one value and runs it through ReLu. This will give a single digit pixel that represents a 5x5 area of the original 28x28 input. With the two filters, we have two outputs. The next layer or first convolutional layer is the max pooling, where the image is simplified. A 2x2 is ran through the channel we have now and takes the max of every 2x2 area in the same way as the 5x5. In this way we have the larger relationship by zooming out, but we still have two outputs from the original input layer. In the second convolutional layer, there are now 8 filters, two for each channel from the previous layer. Each set of filters is iterated through the two channels, one for each. Each of the filters is multiplied by every value in the inputs values and is added to the filter’s bias, those matrices are added together and ran through a sigmoid function (outputs some value 0-1). This will give us four outputs (because of the 4 sets of two filters. 2 for the previous output that gave us 2 channels). Next, we do another max pooling with a 2x2 iterating through the 4 two dimensional outputs we got from the previous convolutional layer and flatten the 4 outputs into a single dimension. 
+
+
+**Q2: How can different epochs have very different val_loss but very similar val_accuracy**
+
+In optimizing the previous NN model for image recognition, we noticed a strange behavior. There was a spiking in the validation loss while the validation accuracy was relatively good and smooth. Through analysis we made a guess as to why it was happening: for a singular grayscale unseen data, the model will generate 10 probabilities for what this input may be. If all of these probabilities are relatively similar, ~0.10, but one of those probabilities is slightly higher than the rest, and that probability happens to be the correct one, two things happen. First, the accuracy is unaffected because the model stil guessed the correct number. However, since the loss measures how much that probability differs from 1, the loss will be very high. In short, the model is not confident of this answer, but the accuracy is unaffected because it stil got it right. This is why the graph experiences sudden spikes in validation loss, while still having a smooth validation accuracy.
+
+
+**Q3: Explain binary cross entropy loss formula**
+
+ $$\frac{1}{-N}\sum_{j=1}^{n}[t_j*log(p_j)+(1-t_j)*log(1-p_j)]$$
+
+**Q4: Explain categorical cross entropy formula. How is this different from sparse categorical cross entroy?**
